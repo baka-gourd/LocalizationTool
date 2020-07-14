@@ -133,7 +133,7 @@ namespace LocalizationTool
                     }
 
 
-                }
+                }//单个转json,完成
                 else if (toLang.IsChecked == true)
                 {
                     
@@ -143,8 +143,40 @@ namespace LocalizationTool
             {
                 if (toJson.IsChecked == true)
                 {
-
-                }
+                    var root = new DirectoryInfo(Path);
+                    foreach (var f in root.GetFiles("*.lang"))
+                    {
+                        var keyReg = new Regex(".+(?==)");
+                        var nameReg = new Regex("(?<==).+");
+                        var fuckReg1 = new Regex("\n*\r");
+                        var fuckReg2 = new Regex("//(.*)");
+                        var fuckReg3 = new Regex("#(.*)");
+                        var jobj = new JObject();
+                        foreach (string str in File.ReadAllLines(Path + "/" + f.ToString(), Encoding.UTF8))
+                        {
+                            if (fuckReg1.IsMatch(str))
+                            {
+                                break;
+                            }
+                            else if (fuckReg2.IsMatch(str))
+                            {
+                                break;
+                            }
+                            else if (fuckReg3.IsMatch(str))
+                            {
+                                break;
+                            }
+                            var key = keyReg.Match(str).ToString();
+                            var name = nameReg.Match(str).ToString();
+                            if (!jobj.Children().Contains(key))
+                            {
+                                jobj.Add(key, name);
+                            }
+                        }
+                        var newPath = (Path + "/" + f.ToString()).Replace(".lang", ".json");
+                        File.WriteAllText(newPath, jobj.ToString());
+                    }
+                }//批量转json,完成
                 else if (toLang.IsChecked == true)
                 {
 
