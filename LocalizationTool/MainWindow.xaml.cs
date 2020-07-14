@@ -103,14 +103,33 @@ namespace LocalizationTool
                     {
                         var keyReg = new Regex(".+(?==)");
                         var nameReg = new Regex("(?<==).+");
+                        var fuckReg1 = new Regex("\n*\r");
+                        var fuckReg2 = new Regex("//(.*)");
+                        var fuckReg3 = new Regex("#(.*)");
                         var jobj = new JObject();
                         foreach (string str in File.ReadAllLines(Path, Encoding.UTF8))
                         {
+                            if (fuckReg1.IsMatch(str))
+                            {
+                                break;
+                            }
+                            else if (fuckReg2.IsMatch(str))
+                            {
+                                break;
+                            }
+                            else if (fuckReg3.IsMatch(str))
+                            {
+                                break;
+                            }
                             var key = keyReg.Match(str).ToString();
                             var name = nameReg.Match(str).ToString();
-                            jobj.Add(key,name);
+                            if (!jobj.Children().Contains(key))
+                            {
+                                jobj.Add(key, name);
+                            }
                         }
                         var newPath = Path.Replace(".lang", ".json");
+                        File.WriteAllText(newPath,jobj.ToString());
                     }
 
 
