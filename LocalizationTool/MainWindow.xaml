@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LocalizationTool"
         mc:Ignorable="d"
-        Title="汉化小帮手" Height="480" Width="800">
+        Title="汉化小帮手" Height="480" Width="800" FontFamily="Microsoft YaHei UI" FontSize="14">
     <TabControl HorizontalAlignment="Left" Height="443" VerticalAlignment="Top" Width="785">
         <TabItem Header="Lang/Json转换">
             <Grid Background="#FFFFFF" Margin="0,0,0,0">
@@ -17,8 +17,8 @@
                 <ListBox x:Name="fileList" HorizontalAlignment="Left" Height="352" Margin="10,40,0,0" VerticalAlignment="Top" Width="143"/>
                 <Button x:Name="cancel" Content="x" HorizontalAlignment="Left" Margin="576,7,0,0" VerticalAlignment="Top" Width="18" RenderTransformOrigin="1.929,0.096" Click="Cancel_Click"/>
                 <Button x:Name="Doto" Content="开始处理" HorizontalAlignment="Right" Margin="0,40,7,0" VerticalAlignment="Top" Height="352" Click="Doto_Click" Width="764"/>
-                <RadioButton x:Name="toLang" GroupName="lj" Content="ToLang" HorizontalAlignment="Left" Margin="609,10,0,0" VerticalAlignment="Top"/>
-                <RadioButton x:Name="toJson" GroupName="lj" Content="ToJson" HorizontalAlignment="Left" Margin="678,10,0,0" VerticalAlignment="Top"/>
+                <RadioButton x:Name="toLang" GroupName="lj" Content="ToLang" HorizontalAlignment="Left" Margin="606,10,0,0" VerticalAlignment="Top"/>
+                <RadioButton x:Name="toJson" GroupName="lj" Content="ToJson" HorizontalAlignment="Left" Margin="684,10,0,0" VerticalAlignment="Top"/>
             </Grid>
         </TabItem>
         <TabItem Header="文件对比">

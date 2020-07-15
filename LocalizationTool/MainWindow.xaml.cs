@@ -58,21 +58,28 @@ namespace LocalizationTool
                     Description = "请选择需要批量处理的文件夹："
                 };
                 openFolder.ShowDialog();
-                paths.Content = openFolder.SelectedPath;
-                Path = openFolder.SelectedPath;
-                fileList.Visibility = Visibility.Visible;
-                var root = new DirectoryInfo(Path);
-                foreach (var file in root.GetFiles("*.json"))
+                try
                 {
-                    fileList.Items.Add(file.Name);
+                    paths.Content = openFolder.SelectedPath;
+                    Path = openFolder.SelectedPath;
+                    fileList.Visibility = Visibility.Visible;
+                    var root = new DirectoryInfo(Path);
+                    foreach (var file in root.GetFiles("*.json"))
+                    {
+                        fileList.Items.Add(file.Name);
+                    }
+                    foreach (var file in root.GetFiles("*.lang"))
+                    {
+                        fileList.Items.Add(file.Name);
+                    }
+                    @select.Visibility = Visibility.Collapsed;
+                    cancel.Visibility = Visibility.Visible;
+                    Doto.Width = 615;
                 }
-                foreach (var file in root.GetFiles("*.lang"))
+                catch
                 {
-                    fileList.Items.Add(file.Name);
+                    MessageBox.Show("请选择！");
                 }
-                @select.Visibility = Visibility.Collapsed;
-                cancel.Visibility = Visibility.Visible;
-                Doto.Width = 615;
             }
             else
             {
