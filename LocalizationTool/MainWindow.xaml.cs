@@ -19,9 +19,9 @@ namespace LocalizationTool
     public partial class MainWindow
     {
         public string RawPathTo { get; set; }
-        public string RawPathUpgradeOrDowngradeLow { get; set; }
-        public string RawPathUpgradeOrDowngradeHigh { get; set; }
-        public string RawPathUpgradeOrDowngradeAdv { get; set; }
+        public string RawPathUpgradeLow { get; set; }
+        public string RawPathUpgradeHigh { get; set; }
+        public string RawPathUpgradeAdv { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -236,11 +236,11 @@ namespace LocalizationTool
                 var fuckReg3 = new Regex("#(.*)");
                 var fuckReg4 = new Regex("^( \\*)");
                 var fuckReg5 = new Regex("^(/\\*)");
-                var jFile = System.IO.File.OpenText(RawPathUpgradeOrDowngradeHigh);
+                var jFile = System.IO.File.OpenText(RawPathUpgradeHigh);
                 var reader = new JsonTextReader(jFile);
                 var jObj = (JObject)JToken.ReadFrom(reader);
                 var langDict = new Dictionary<string, string>();
-                foreach (string str in System.IO.File.ReadAllLines(RawPathUpgradeOrDowngradeLow, Encoding.UTF8))
+                foreach (string str in System.IO.File.ReadAllLines(RawPathUpgradeLow, Encoding.UTF8))
                 {
                     if (fuckReg1.IsMatch(str))
                         continue;
@@ -265,7 +265,7 @@ namespace LocalizationTool
                     if (hasKey)
                         jObj[jT.Key] = resultName;
                 }
-                var newOutPath = RawPathUpgradeOrDowngradeHigh.Replace(".json", "_out.json");
+                var newOutPath = RawPathUpgradeHigh.Replace(".json", "_out.json");
                 System.IO.File.WriteAllText(newOutPath, jObj.ToString());
                 MessageBox.Show("完成！");
             }
@@ -278,12 +278,12 @@ namespace LocalizationTool
                 var fuckReg3 = new Regex("#(.*)");
                 var fuckReg4 = new Regex("^( \\*)");
                 var fuckReg5 = new Regex("^(/\\*)");
-                var jFile = System.IO.File.OpenText(RawPathUpgradeOrDowngradeHigh);
+                var jFile = System.IO.File.OpenText(RawPathUpgradeHigh);
                 var reader = new JsonTextReader(jFile);
                 var jObj = (JObject)JToken.ReadFrom(reader);
                 var langDictChs = new Dictionary<string, string>();
                 var langDictEng = new Dictionary<string, string>();
-                foreach (string str in System.IO.File.ReadAllLines(RawPathUpgradeOrDowngradeLow, Encoding.UTF8))
+                foreach (string str in System.IO.File.ReadAllLines(RawPathUpgradeLow, Encoding.UTF8))
                 {
                     if (fuckReg1.IsMatch(str))
                         continue;
@@ -302,7 +302,7 @@ namespace LocalizationTool
                     if (!langDictChs.TryGetValue(key, out var rubbish2))
                         langDictChs.Add(key, name);
                 }
-                foreach (string str in System.IO.File.ReadAllLines(RawPathUpgradeOrDowngradeAdv, Encoding.UTF8))
+                foreach (string str in System.IO.File.ReadAllLines(RawPathUpgradeAdv, Encoding.UTF8))
                 {
                     if (fuckReg1.IsMatch(str))
                         continue;
@@ -330,7 +330,7 @@ namespace LocalizationTool
                     if (hasKey)
                         jObj[jT.Key] = resultName;
                 }
-                var newOutPath = RawPathUpgradeOrDowngradeHigh.Replace(".json", "_out.json");
+                var newOutPath = RawPathUpgradeHigh.Replace(".json", "_out.json");
                 System.IO.File.WriteAllText(newOutPath, jObj.ToString());
                 MessageBox.Show("完成！");
             }
@@ -347,7 +347,7 @@ namespace LocalizationTool
             openFile.ShowDialog();
             try
             {
-                RawPathUpgradeOrDowngradeLow = openFile.FileName;
+                RawPathUpgradeLow = openFile.FileName;
                 LowLabel.Content = openFile.FileName;
             }
             catch
@@ -367,7 +367,7 @@ namespace LocalizationTool
             openFile.ShowDialog();
             try
             {
-                RawPathUpgradeOrDowngradeHigh = openFile.FileName;
+                RawPathUpgradeHigh = openFile.FileName;
                 HighLabel.Content = openFile.FileName;
             }
             catch
@@ -387,7 +387,7 @@ namespace LocalizationTool
             openFile.ShowDialog();
             try
             {
-                RawPathUpgradeOrDowngradeAdv = openFile.FileName;
+                RawPathUpgradeAdv = openFile.FileName;
             }
             catch
             {
@@ -397,7 +397,7 @@ namespace LocalizationTool
 
         private void IsAdv_Checked(object sender, RoutedEventArgs e)
         {
-            if (RawPathUpgradeOrDowngradeAdv == null)
+            if (RawPathUpgradeAdv == null)
             {
                 MessageBox.Show("请选择高级文件！");
             }
