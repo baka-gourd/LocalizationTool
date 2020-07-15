@@ -21,6 +21,7 @@ namespace LocalizationTool
         public string RawPathTo { get; set; }
         public string RawPathUpgradeOrDowngradeLow { get; set; }
         public string RawPathUpgradeOrDowngradeHigh { get; set; }
+        public string RawPathUpgradeOrDowngradeAdv { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -110,18 +111,26 @@ namespace LocalizationTool
                         var fuckReg1 = new Regex("\n*\r");
                         var fuckReg2 = new Regex("//(.*)");
                         var fuckReg3 = new Regex("#(.*)");
+                        var fuckReg4 = new Regex("^( \\*)");
+                        var fuckReg5 = new Regex("^(/\\*)");
                         var jobj = new JObject();
                         foreach (string str in System.IO.File.ReadAllLines(RawPathTo, Encoding.UTF8))
                         {
                             if (fuckReg1.IsMatch(str))
-                                break;
+                                continue;
                             if (fuckReg2.IsMatch(str))
-                                break;
+                                continue;
                             if (fuckReg3.IsMatch(str))
-                                break;
+                                continue;
+                            if (fuckReg4.IsMatch(str))
+                                continue;
+                            if (fuckReg5.IsMatch(str))
+                                continue;
                             var key = keyReg.Match(str).ToString();
                             var name = nameReg.Match(str).ToString();
-                            if (!jobj.Children().Contains(key))
+                            if (key == "" && name == "")
+                                continue;
+                            if (!jobj.TryGetValue(key, out var rubbish1))
                             {
                                 jobj.Add(key, name);
                             }
@@ -218,44 +227,114 @@ namespace LocalizationTool
 
         private void Upgradeto113_Click(object sender, RoutedEventArgs e)
         {
-            var keyReg = new Regex(".+(?==)");
-            var nameReg = new Regex("(?<==).+");
-            var fuckReg1 = new Regex("\n*\r");
-            var fuckReg2 = new Regex("//(.*)");
-            var fuckReg3 = new Regex("#(.*)");
-            var jFile = System.IO.File.OpenText(RawPathUpgradeOrDowngradeHigh);
-            var reader = new JsonTextReader(jFile);
-            var jObj = (JObject)JToken.ReadFrom(reader);
-            var langDict = new Dictionary<string, string>();
-            foreach (string str in System.IO.File.ReadAllLines(RawPathUpgradeOrDowngradeLow, Encoding.UTF8))
+            if (IsAdv.IsChecked != true)
             {
-                if (fuckReg1.IsMatch(str))
-                    break;
-                if (fuckReg2.IsMatch(str))
-                    break;
-                if (fuckReg3.IsMatch(str))
-                    break;
-                var key = keyReg.Match(str).ToString();
-                var name = nameReg.Match(str).ToString();
-                langDict.Add(key,name);
-            }
-            foreach (var jT in jObj)
-            {
-                var hasKey = langDict.TryGetValue(jT.Key, out string resultName);
-                if (hasKey)
+                var keyReg = new Regex(".+(?==)");
+                var nameReg = new Regex("(?<==).+");
+                var fuckReg1 = new Regex("\n*\r");
+                var fuckReg2 = new Regex("//(.*)");
+                var fuckReg3 = new Regex("#(.*)");
+                var fuckReg4 = new Regex("^( \\*)");
+                var fuckReg5 = new Regex("^(/\\*)");
+                var jFile = System.IO.File.OpenText(RawPathUpgradeOrDowngradeHigh);
+                var reader = new JsonTextReader(jFile);
+                var jObj = (JObject)JToken.ReadFrom(reader);
+                var langDict = new Dictionary<string, string>();
+                foreach (string str in System.IO.File.ReadAllLines(RawPathUpgradeOrDowngradeLow, Encoding.UTF8))
                 {
-                    jObj[jT.Key] = resultName;
+                    if (fuckReg1.IsMatch(str))
+                        continue;
+                    if (fuckReg2.IsMatch(str))
+                        continue;
+                    if (fuckReg3.IsMatch(str))
+                        continue;
+                    if (fuckReg4.IsMatch(str))
+                        continue;
+                    if (fuckReg5.IsMatch(str))
+                        continue;
+                    var key = keyReg.Match(str).ToString();
+                    var name = nameReg.Match(str).ToString();
+                    if (key == "" && name == "")
+                        continue;
+                    if (!langDict.TryGetValue(key, out var rubbish2))
+                        langDict.Add(key, name);
                 }
+                foreach (var jT in jObj)
+                {
+                    var hasKey = langDict.TryGetValue(jT.Key, out string resultName);
+                    if (hasKey)
+                        jObj[jT.Key] = resultName;
+                }
+                var newOutPath = RawPathUpgradeOrDowngradeHigh.Replace(".json", "_out.json");
+                System.IO.File.WriteAllText(newOutPath, jObj.ToString());
+                MessageBox.Show("完成！");
             }
-            var newOutPath = RawPathUpgradeOrDowngradeHigh.Replace(".json", "_out.json");
-            System.IO.File.WriteAllText(newOutPath, jObj.ToString());
-            MessageBox.Show("完成！");
+            else
+            {
+                var keyReg = new Regex(".+(?==)");
+                var nameReg = new Regex("(?<==).+");
+                var fuckReg1 = new Regex("\n*\r");
+                var fuckReg2 = new Regex("//(.*)");
+                var fuckReg3 = new Regex("#(.*)");
+                var fuckReg4 = new Regex("^( \\*)");
+                var fuckReg5 = new Regex("^(/\\*)");
+                var jFile = System.IO.File.OpenText(RawPathUpgradeOrDowngradeHigh);
+                var reader = new JsonTextReader(jFile);
+                var jObj = (JObject)JToken.ReadFrom(reader);
+                var langDictChs = new Dictionary<string, string>();
+                var langDictEng = new Dictionary<string, string>();
+                foreach (string str in System.IO.File.ReadAllLines(RawPathUpgradeOrDowngradeLow, Encoding.UTF8))
+                {
+                    if (fuckReg1.IsMatch(str))
+                        continue;
+                    if (fuckReg2.IsMatch(str))
+                        continue;
+                    if (fuckReg3.IsMatch(str))
+                        continue;
+                    if (fuckReg4.IsMatch(str))
+                        continue;
+                    if (fuckReg5.IsMatch(str))
+                        continue;
+                    var key = keyReg.Match(str).ToString();
+                    var name = nameReg.Match(str).ToString();
+                    if (key == "" && name == "")
+                        continue;
+                    if (!langDictChs.TryGetValue(key, out var rubbish2))
+                        langDictChs.Add(key, name);
+                }
+                foreach (string str in System.IO.File.ReadAllLines(RawPathUpgradeOrDowngradeAdv, Encoding.UTF8))
+                {
+                    if (fuckReg1.IsMatch(str))
+                        continue;
+                    if (fuckReg2.IsMatch(str))
+                        continue;
+                    if (fuckReg3.IsMatch(str))
+                        continue;
+                    if (fuckReg4.IsMatch(str))
+                        continue;
+                    if (fuckReg5.IsMatch(str))
+                        continue;
+                    var key = keyReg.Match(str).ToString();
+                    var name = nameReg.Match(str).ToString();
+                    if (key == "" && name == "")
+                        continue;
+                    if (!langDictEng.TryGetValue(key, out var rubbish3))
+                        langDictEng.Add(key, name);
+                }
+                foreach (var jT in jObj)
+                {
+                    var keySelect = langDictEng.FirstOrDefault(i => i.Value == jT.Value.ToString()).Key;
+                    if (keySelect == null)
+                        continue;
+                    var hasKey = langDictChs.TryGetValue(keySelect, out string resultName);
+                    if (hasKey)
+                        jObj[jT.Key] = resultName;
+                }
+                var newOutPath = RawPathUpgradeOrDowngradeHigh.Replace(".json", "_out.json");
+                System.IO.File.WriteAllText(newOutPath, jObj.ToString());
+                MessageBox.Show("完成！");
+            }
         }//低->高，完成
-
-        private void Downgradeto112_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void Low_Click(object sender, RoutedEventArgs e)
         {
@@ -296,5 +375,32 @@ namespace LocalizationTool
                 MessageBox.Show("请选择！");
             }
         }//选择高版本，完成
+
+        private void Adv_Click(object sender, RoutedEventArgs e)
+        {
+            var openFile = new OpenFileDialog
+            {
+                Multiselect = false,
+                Title = "请选择：",
+                Filter = "Minecraft语言文件(*.lang)|*.lang"
+            };
+            openFile.ShowDialog();
+            try
+            {
+                RawPathUpgradeOrDowngradeAdv = openFile.FileName;
+            }
+            catch
+            {
+                MessageBox.Show("请选择！");
+            }
+        }//选择高级，完成
+
+        private void IsAdv_Checked(object sender, RoutedEventArgs e)
+        {
+            if (RawPathUpgradeOrDowngradeAdv == null)
+            {
+                MessageBox.Show("请选择高级文件！");
+            }
+        }
     }
 }
