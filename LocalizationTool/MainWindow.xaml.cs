@@ -1,23 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace LocalizationTool
@@ -46,11 +37,18 @@ namespace LocalizationTool
                     Filter = "Minecraft语言文件(*.lang,*.json)|*.lang;*.json"
                 };
                 openFile.ShowDialog();
-                paths.Content = openFile.FileNames[0];
-                Path = openFile.FileName;
-                fileList.Visibility = Visibility.Collapsed;
-                @select.Visibility = Visibility.Collapsed;
-                cancel.Visibility = Visibility.Visible;
+                try
+                {
+                    paths.Content = openFile.FileNames[0];
+                    Path = openFile.FileName;
+                    fileList.Visibility = Visibility.Collapsed;
+                    @select.Visibility = Visibility.Collapsed;
+                    cancel.Visibility = Visibility.Visible;
+                }
+                catch
+                {
+                    MessageBox.Show("请选择！");
+                }
             }
             else if (folder.IsChecked == true)
             {
@@ -110,17 +108,11 @@ namespace LocalizationTool
                         foreach (string str in File.ReadAllLines(Path, Encoding.UTF8))
                         {
                             if (fuckReg1.IsMatch(str))
-                            {
                                 break;
-                            }
-                            else if (fuckReg2.IsMatch(str))
-                            {
+                            if (fuckReg2.IsMatch(str))
                                 break;
-                            }
-                            else if (fuckReg3.IsMatch(str))
-                            {
+                            if (fuckReg3.IsMatch(str))
                                 break;
-                            }
                             var key = keyReg.Match(str).ToString();
                             var name = nameReg.Match(str).ToString();
                             if (!jobj.Children().Contains(key))
@@ -129,15 +121,34 @@ namespace LocalizationTool
                             }
                         }
                         var newPath = Path.Replace(".lang", ".json");
-                        File.WriteAllText(newPath,jobj.ToString());
+                        File.WriteAllText(newPath, jobj.ToString());
+                        MessageBox.Show("完成！");
                     }
 
 
                 }//单个转json,完成
-                else if (toLang.IsChecked == true)
+                if (toLang.IsChecked == true)
                 {
-                    
-                }
+                    if (Path.Contains(".json"))
+                    {
+                        var jFile = File.OpenText(Path);
+                        var reader = new JsonTextReader(jFile);
+                        var jObj = (JObject)JToken.ReadFrom(reader);
+                        List<string> langList = new List<string>();
+                        foreach (var jValue in jObj)
+                        {
+                            langList.Add(jValue.Key.ToString() + "=" + jValue.Value.ToString());
+                        }
+                        var newPath = (Path.Replace(".json", ".lang"));
+                        var sw = new StreamWriter(newPath, true, Encoding.UTF8);
+                        foreach (var langStr in langList)
+                        {
+                            sw.WriteLine(langStr);
+                        }
+                        sw.Close();
+                        MessageBox.Show("完成！");
+                    }
+                }//单个转lang,完成
             }
             else
             {
@@ -155,17 +166,11 @@ namespace LocalizationTool
                         foreach (string str in File.ReadAllLines(Path + "/" + f.ToString(), Encoding.UTF8))
                         {
                             if (fuckReg1.IsMatch(str))
-                            {
                                 break;
-                            }
-                            else if (fuckReg2.IsMatch(str))
-                            {
+                            if (fuckReg2.IsMatch(str))
                                 break;
-                            }
-                            else if (fuckReg3.IsMatch(str))
-                            {
+                            if (fuckReg3.IsMatch(str))
                                 break;
-                            }
                             var key = keyReg.Match(str).ToString();
                             var name = nameReg.Match(str).ToString();
                             if (!jobj.Children().Contains(key))
@@ -176,10 +181,31 @@ namespace LocalizationTool
                         var newPath = (Path + "/" + f.ToString()).Replace(".lang", ".json");
                         File.WriteAllText(newPath, jobj.ToString());
                     }
+                    MessageBox.Show("完成！");
                 }//批量转json,完成
-                else if (toLang.IsChecked == true)
+                if (toLang.IsChecked == true)
                 {
-
+                    var root = new DirectoryInfo(Path);
+                    foreach (var f in root.GetFiles("*.json"))
+                    {
+                        var jFile = File.OpenText(Path + "/" + f.ToString());
+                        var reader = new JsonTextReader(jFile);
+                        var jObj = (JObject)JToken.ReadFrom(reader);
+                        List<string> langList = new List<string>();
+                        foreach (var jValue in jObj)
+                        {
+                            langList.Add(jValue.Key.ToString() + "=" + jValue.Value.ToString());
+                        }
+                        var newPath = (Path + "/" + f.ToString()).Replace(".json", ".lang");
+                        var sw = new StreamWriter(newPath, true, Encoding.UTF8);
+                        foreach (var langStr in langList)
+                        {
+                            sw.WriteLine(langStr);
+                        }
+                        sw.Close();
+                    }
+                    MessageBox.Show("完成！");
+                    //批量转lang,完成
                 }
             }
         }
