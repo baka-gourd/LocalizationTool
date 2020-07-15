@@ -27,7 +27,6 @@ namespace LocalizationTool
             FileList.Visibility = Visibility.Collapsed;
             Cancel.Visibility = Visibility.Collapsed;
         }
-        //选择
         private void Select_Click(object sender, RoutedEventArgs e)
         {
             if (File.IsChecked == true)
@@ -87,9 +86,7 @@ namespace LocalizationTool
             {
                 Paths.Content = "请勾选！";
             }
-        }
-
-        //取消
+        }//选择
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             Select.Visibility = Visibility.Visible;
@@ -98,7 +95,7 @@ namespace LocalizationTool
             Cancel.Visibility = Visibility.Collapsed;
             FileList.Visibility = Visibility.Collapsed;
             Doto.Width = 764;
-        }
+        }//取消
 
         private void Doto_Click(object sender, RoutedEventArgs e)
         {
@@ -252,7 +249,8 @@ namespace LocalizationTool
             }
             var newOutPath = RawPathUpgradeOrDowngradeHigh.Replace(".json", "_out.json");
             System.IO.File.WriteAllText(newOutPath, jObj.ToString());
-        }
+            MessageBox.Show("完成！");
+        }//低->高，完成
 
         private void Downgradeto112_Click(object sender, RoutedEventArgs e)
         {
