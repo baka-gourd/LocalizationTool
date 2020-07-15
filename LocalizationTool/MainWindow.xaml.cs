@@ -16,19 +16,21 @@ namespace LocalizationTool
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
-        public string Path { get; set; }
+        public string RawPathTo { get; set; }
+        public string RawPathUpgradeOrDowngradeLow { get; set; }
+        public string RawPathUpgradeOrDowngradeHigh { get; set; }
         public MainWindow()
         {
             InitializeComponent();
-            fileList.Visibility = Visibility.Collapsed;
-            cancel.Visibility = Visibility.Collapsed;
+            FileList.Visibility = Visibility.Collapsed;
+            Cancel.Visibility = Visibility.Collapsed;
         }
         //选择
         private void Select_Click(object sender, RoutedEventArgs e)
         {
-            if (file.IsChecked == true)
+            if (File.IsChecked == true)
             {
                 var openFile = new OpenFileDialog
                 {
@@ -39,41 +41,41 @@ namespace LocalizationTool
                 openFile.ShowDialog();
                 try
                 {
-                    paths.Content = openFile.FileNames[0];
-                    Path = openFile.FileName;
-                    fileList.Visibility = Visibility.Collapsed;
-                    @select.Visibility = Visibility.Collapsed;
-                    cancel.Visibility = Visibility.Visible;
+                    Paths.Content = openFile.FileNames[0];
+                    RawPathTo = openFile.FileName;
+                    FileList.Visibility = Visibility.Collapsed;
+                    Select.Visibility = Visibility.Collapsed;
+                    Cancel.Visibility = Visibility.Visible;
                 }
                 catch
                 {
                     MessageBox.Show("请选择！");
                 }
             }
-            else if (folder.IsChecked == true)
+            else if (Folder.IsChecked == true)
             {
                 var openFolder = new FolderBrowserDialog
                 {
                     ShowNewFolderButton = false,
-                    Description = "请选择需要批量处理的文件夹："
+                    Description = @"请选择需要批量处理的文件夹："
                 };
                 openFolder.ShowDialog();
                 try
                 {
-                    paths.Content = openFolder.SelectedPath;
-                    Path = openFolder.SelectedPath;
-                    fileList.Visibility = Visibility.Visible;
-                    var root = new DirectoryInfo(Path);
+                    Paths.Content = openFolder.SelectedPath;
+                    RawPathTo = openFolder.SelectedPath;
+                    FileList.Visibility = Visibility.Visible;
+                    var root = new DirectoryInfo(RawPathTo);
                     foreach (var file in root.GetFiles("*.json"))
                     {
-                        fileList.Items.Add(file.Name);
+                        FileList.Items.Add(file.Name);
                     }
                     foreach (var file in root.GetFiles("*.lang"))
                     {
-                        fileList.Items.Add(file.Name);
+                        FileList.Items.Add(file.Name);
                     }
-                    @select.Visibility = Visibility.Collapsed;
-                    cancel.Visibility = Visibility.Visible;
+                    Select.Visibility = Visibility.Collapsed;
+                    Cancel.Visibility = Visibility.Visible;
                     Doto.Width = 615;
                 }
                 catch
@@ -83,28 +85,28 @@ namespace LocalizationTool
             }
             else
             {
-                paths.Content = "请勾选！";
+                Paths.Content = "请勾选！";
             }
         }
 
         //取消
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
-            @select.Visibility = Visibility.Visible;
-            paths.Content = "";
-            Path = "";
-            cancel.Visibility = Visibility.Collapsed;
-            fileList.Visibility = Visibility.Collapsed;
+            Select.Visibility = Visibility.Visible;
+            Paths.Content = "";
+            RawPathTo = "";
+            Cancel.Visibility = Visibility.Collapsed;
+            FileList.Visibility = Visibility.Collapsed;
             Doto.Width = 764;
         }
 
         private void Doto_Click(object sender, RoutedEventArgs e)
         {
-            if (File.Exists(Path))
+            if (System.IO.File.Exists(RawPathTo))
             {
-                if (toJson.IsChecked == true)
+                if (ToJson.IsChecked == true)
                 {
-                    if (Path.Contains(".lang"))
+                    if (RawPathTo.Contains(".lang"))
                     {
                         var keyReg = new Regex(".+(?==)");
                         var nameReg = new Regex("(?<==).+");
@@ -112,7 +114,7 @@ namespace LocalizationTool
                         var fuckReg2 = new Regex("//(.*)");
                         var fuckReg3 = new Regex("#(.*)");
                         var jobj = new JObject();
-                        foreach (string str in File.ReadAllLines(Path, Encoding.UTF8))
+                        foreach (string str in System.IO.File.ReadAllLines(RawPathTo, Encoding.UTF8))
                         {
                             if (fuckReg1.IsMatch(str))
                                 break;
@@ -127,26 +129,26 @@ namespace LocalizationTool
                                 jobj.Add(key, name);
                             }
                         }
-                        var newPath = Path.Replace(".lang", ".json");
-                        File.WriteAllText(newPath, jobj.ToString());
+                        var newPath = RawPathTo.Replace(".lang", ".json");
+                        System.IO.File.WriteAllText(newPath, jobj.ToString());
                         MessageBox.Show("完成！");
                     }
 
 
                 }//单个转json,完成
-                if (toLang.IsChecked == true)
+                if (ToLang.IsChecked == true)
                 {
-                    if (Path.Contains(".json"))
+                    if (RawPathTo.Contains(".json"))
                     {
-                        var jFile = File.OpenText(Path);
+                        var jFile = System.IO.File.OpenText(RawPathTo);
                         var reader = new JsonTextReader(jFile);
                         var jObj = (JObject)JToken.ReadFrom(reader);
                         List<string> langList = new List<string>();
                         foreach (var jValue in jObj)
                         {
-                            langList.Add(jValue.Key.ToString() + "=" + jValue.Value.ToString());
+                            langList.Add(jValue.Key + "=" + jValue.Value);
                         }
-                        var newPath = (Path.Replace(".json", ".lang"));
+                        var newPath = (RawPathTo.Replace(".json", ".lang"));
                         var sw = new StreamWriter(newPath, true, Encoding.UTF8);
                         foreach (var langStr in langList)
                         {
@@ -159,9 +161,9 @@ namespace LocalizationTool
             }
             else
             {
-                if (toJson.IsChecked == true)
+                if (ToJson.IsChecked == true)
                 {
-                    var root = new DirectoryInfo(Path);
+                    var root = new DirectoryInfo(RawPathTo);
                     foreach (var f in root.GetFiles("*.lang"))
                     {
                         var keyReg = new Regex(".+(?==)");
@@ -170,7 +172,7 @@ namespace LocalizationTool
                         var fuckReg2 = new Regex("//(.*)");
                         var fuckReg3 = new Regex("#(.*)");
                         var jobj = new JObject();
-                        foreach (string str in File.ReadAllLines(Path + "/" + f.ToString(), Encoding.UTF8))
+                        foreach (string str in System.IO.File.ReadAllLines(RawPathTo + "/" + f, Encoding.UTF8))
                         {
                             if (fuckReg1.IsMatch(str))
                                 break;
@@ -185,25 +187,25 @@ namespace LocalizationTool
                                 jobj.Add(key, name);
                             }
                         }
-                        var newPath = (Path + "/" + f.ToString()).Replace(".lang", ".json");
-                        File.WriteAllText(newPath, jobj.ToString());
+                        var newPath = (RawPathTo + "/" + f).Replace(".lang", ".json");
+                        System.IO.File.WriteAllText(newPath, jobj.ToString());
                     }
                     MessageBox.Show("完成！");
                 }//批量转json,完成
-                if (toLang.IsChecked == true)
+                if (ToLang.IsChecked == true)
                 {
-                    var root = new DirectoryInfo(Path);
+                    var root = new DirectoryInfo(RawPathTo);
                     foreach (var f in root.GetFiles("*.json"))
                     {
-                        var jFile = File.OpenText(Path + "/" + f.ToString());
+                        var jFile = System.IO.File.OpenText(RawPathTo + "/" + f);
                         var reader = new JsonTextReader(jFile);
                         var jObj = (JObject)JToken.ReadFrom(reader);
                         List<string> langList = new List<string>();
                         foreach (var jValue in jObj)
                         {
-                            langList.Add(jValue.Key.ToString() + "=" + jValue.Value.ToString());
+                            langList.Add(jValue.Key + "=" + jValue.Value);
                         }
-                        var newPath = (Path + "/" + f.ToString()).Replace(".json", ".lang");
+                        var newPath = (RawPathTo + "/" + f).Replace(".json", ".lang");
                         var sw = new StreamWriter(newPath, true, Encoding.UTF8);
                         foreach (var langStr in langList)
                         {
@@ -217,6 +219,84 @@ namespace LocalizationTool
             }
         }
 
+        private void Upgradeto113_Click(object sender, RoutedEventArgs e)
+        {
+            var keyReg = new Regex(".+(?==)");
+            var nameReg = new Regex("(?<==).+");
+            var fuckReg1 = new Regex("\n*\r");
+            var fuckReg2 = new Regex("//(.*)");
+            var fuckReg3 = new Regex("#(.*)");
+            var jFile = System.IO.File.OpenText(RawPathUpgradeOrDowngradeHigh);
+            var reader = new JsonTextReader(jFile);
+            var jObj = (JObject)JToken.ReadFrom(reader);
+            var langDict = new Dictionary<string, string>();
+            foreach (string str in System.IO.File.ReadAllLines(RawPathUpgradeOrDowngradeLow, Encoding.UTF8))
+            {
+                if (fuckReg1.IsMatch(str))
+                    break;
+                if (fuckReg2.IsMatch(str))
+                    break;
+                if (fuckReg3.IsMatch(str))
+                    break;
+                var key = keyReg.Match(str).ToString();
+                var name = nameReg.Match(str).ToString();
+                langDict.Add(key,name);
+            }
+            foreach (var jT in jObj)
+            {
+                var hasKey = langDict.TryGetValue(jT.Key, out string resultName);
+                if (hasKey)
+                {
+                    jObj[jT.Key] = resultName;
+                }
+            }
+            var newOutPath = RawPathUpgradeOrDowngradeHigh.Replace(".json", "_out.json");
+            System.IO.File.WriteAllText(newOutPath, jObj.ToString());
+        }
 
+        private void Downgradeto112_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Low_Click(object sender, RoutedEventArgs e)
+        {
+            var openFile = new OpenFileDialog
+            {
+                Multiselect = false,
+                Title = "请选择：",
+                Filter = "Minecraft语言文件(*.lang)|*.lang"
+            };
+            openFile.ShowDialog();
+            try
+            {
+                RawPathUpgradeOrDowngradeLow = openFile.FileName;
+                LowLabel.Content = openFile.FileName;
+            }
+            catch
+            {
+                MessageBox.Show("请选择！");
+            }
+        }//选择低版本，完成
+
+        private void High_Click(object sender, RoutedEventArgs e)
+        {
+            var openFile = new OpenFileDialog
+            {
+                Multiselect = false,
+                Title = "请选择：",
+                Filter = "Minecraft语言文件(*.json)|*.json"
+            };
+            openFile.ShowDialog();
+            try
+            {
+                RawPathUpgradeOrDowngradeHigh = openFile.FileName;
+                HighLabel.Content = openFile.FileName;
+            }
+            catch
+            {
+                MessageBox.Show("请选择！");
+            }
+        }//选择高版本，完成
     }
 }
