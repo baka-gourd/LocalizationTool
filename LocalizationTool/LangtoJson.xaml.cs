@@ -94,7 +94,7 @@ namespace LocalizationTool
             }
             else
             {
-                Paths.Content = "请勾选！";
+                Paths.Content = "请选择！";
             }
         }//选择
         private void Cancel_Click(object sender, RoutedEventArgs e)
@@ -145,7 +145,7 @@ namespace LocalizationTool
                         }
                         var newPath = RawPathTo.Replace(".lang", ".json");
                         System.IO.File.WriteAllText(newPath, jobj.ToString());
-                        MessageBox.Show("完成！");
+                        MessageBox.Show("完成！输出到{0}",newPath);
                     }
 
 
@@ -169,7 +169,7 @@ namespace LocalizationTool
                             sw.WriteLine(langStr);
                         }
                         sw.Close();
-                        MessageBox.Show("完成！");
+                        MessageBox.Show("完成！输出到{0}", newPath);
                     }
                 }//单个转lang,完成
             }

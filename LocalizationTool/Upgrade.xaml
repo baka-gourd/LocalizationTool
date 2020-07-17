@@ -1,0 +1,23 @@
+﻿<Window x:Class="LocalizationTool.Upgrade"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LocalizationTool"
+        mc:Ignorable="d"
+        Title="低版本语言文件转高版本" Height="332" Width="288" FontSize="14" FontFamily="Microsoft YaHei UI">
+    <Grid>
+        <Border BorderBrush="#FFA8A8A8" BorderThickness="2" HorizontalAlignment="Left" Height="62" Margin="21,155,0,0" VerticalAlignment="Top" Width="229"/>
+        <Border BorderBrush="#FFA8A8A8" BorderThickness="2" HorizontalAlignment="Left" Height="112" Margin="21,21,0,0" VerticalAlignment="Top" Width="229"/>
+        <Button x:Name="LangZh" Content="低版本的zh_cn.lang" HorizontalAlignment="Left" Margin="33,43,0,0" VerticalAlignment="Top" Width="177" Click="LangZh_Click" BorderBrush="#FFA8A8A8" Background="White" BorderThickness="2"/>
+        <Button x:Name="JsonEn" Content="高版本的en_us.json" HorizontalAlignment="Left" Margin="33,89,0,0" VerticalAlignment="Top" Width="177" Click="JsonEn_Click" BorderBrush="#FFA8A8A8" BorderThickness="2" Background="White"/>
+        <Button x:Name="UpgradeTo" Content="开始处理" HorizontalAlignment="Left" Margin="21,235,0,0" VerticalAlignment="Top" Width="229" Click="UpgradeTo_Click" Height="35" BorderThickness="2" Background="White" BorderBrush="#FFA8A8A8"/>
+        <Button x:Name="LangEn" Content="低版本的en_us.lang" HorizontalAlignment="Left" Margin="33,175,0,0" VerticalAlignment="Top" Width="177" Click="LangEn_Click" BorderBrush="#FFA8A8A8" Background="White" BorderThickness="2"/>
+        <Label x:Name="LabelLangZh" Content="" HorizontalAlignment="Left" Margin="225,37,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="LabelJsonEn" Content="" HorizontalAlignment="Left" Margin="225,83,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="LabelLangEn" Content="" HorizontalAlignment="Left" Margin="225,171,0,0" VerticalAlignment="Top"/>
+        <Label Content="必选" HorizontalAlignment="Left" Margin="33,10,0,0" VerticalAlignment="Top" Background="White"/>
+        <Label Content="可选" HorizontalAlignment="Left" Margin="33,138,0,0" VerticalAlignment="Top" Background="White"/>
+
+    </Grid>
+</Window>
