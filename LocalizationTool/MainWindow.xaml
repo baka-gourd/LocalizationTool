@@ -5,35 +5,5 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="汉化小帮手" Height="480" Width="800" FontFamily="Microsoft YaHei UI" FontSize="14">
-    <TabControl HorizontalAlignment="Left" Height="443" VerticalAlignment="Top" Width="785">
-        <TabItem Header="Lang/Json转换">
-            <Grid Background="#FFFFFF" Margin="0,0,0,0">
-                <Button x:Name="Select" Content="选择" HorizontalAlignment="Left" Height="24" Margin="276,4,0,0" VerticalAlignment="Top" Width="57" Click="Select_Click"/>
-                <Label Content="路径：" HorizontalAlignment="Left" Margin="156,4,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="Paths" Content="" HorizontalAlignment="Left" Margin="195,4,0,0" VerticalAlignment="Top"/>
-                <RadioButton x:Name="File" GroupName="ff" Content="文件" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                <RadioButton x:Name="Folder" GroupName="ff" Content="文件夹" HorizontalAlignment="Left" Margin="76,10,0,0" VerticalAlignment="Top"/>
-                <ListBox x:Name="FileList" HorizontalAlignment="Left" Height="352" Margin="10,40,0,0" VerticalAlignment="Top" Width="143"/>
-                <Button x:Name="Cancel" Content="x" HorizontalAlignment="Left" Margin="576,7,0,0" VerticalAlignment="Top" Width="18" RenderTransformOrigin="1.929,0.096" Click="Cancel_Click"/>
-                <Button x:Name="Doto" Content="开始处理" HorizontalAlignment="Right" Margin="0,40,7,0" VerticalAlignment="Top" Height="352" Click="Doto_Click" Width="764"/>
-                <RadioButton x:Name="ToLang" GroupName="lj" Content="ToLang" HorizontalAlignment="Left" Margin="606,10,0,0" VerticalAlignment="Top"/>
-                <RadioButton x:Name="ToJson" GroupName="lj" Content="ToJson" HorizontalAlignment="Left" Margin="684,10,0,0" VerticalAlignment="Top"/>
-            </Grid>
-        </TabItem>
-        <TabItem Header="文件对比">
-            <Grid Background="#FFFFFF"/>
-        </TabItem>
-        <TabItem Header="1.12&lt;-&gt;1.13+">
-            <Grid Background="White">
-                <Button x:Name="Upgradeto113" Content="&gt;" HorizontalAlignment="Left" Margin="350,71,0,0" VerticalAlignment="Top" Width="75" Click="Upgradeto113_Click"/>
-                <Button x:Name="Low" Content="1.12" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="335" Height="371" Click="Low_Click"/>
-                <Button x:Name="High" Content="1.13+" HorizontalAlignment="Left" Margin="430,10,0,0" VerticalAlignment="Top" Width="339" Height="371" Click="High_Click"/>
-                <Label x:Name="LowLabel" Content="" HorizontalAlignment="Left" Margin="10,385,0,0" VerticalAlignment="Top" Width="335"/>
-                <Label x:Name="HighLabel" Content="" HorizontalAlignment="Left" Margin="430,385,0,0" VerticalAlignment="Top" Width="339"/>
-                <CheckBox x:Name="IsAdv" Content="高级" HorizontalAlignment="Left" Margin="363,314,0,0" VerticalAlignment="Top" Checked="IsAdv_Checked"/>
-                <Button x:Name="Adv" Content="Adv" HorizontalAlignment="Left" Margin="350,135,0,0" VerticalAlignment="Top" Width="75" Click="Adv_Click"/>
-
-            </Grid>
-        </TabItem>
-    </TabControl>
+    <Button x:Name="ShowLangtoJson" Content="Button" HorizontalAlignment="Left" Margin="101,92,0,0" VerticalAlignment="Top" Width="272" Height="306" Click="ShowLangtoJson_Click"/>
 </Window>
