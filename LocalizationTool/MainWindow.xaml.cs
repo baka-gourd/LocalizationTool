@@ -7,8 +7,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Input;
 using Newtonsoft.Json;
 using MessageBox = System.Windows.MessageBox;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace LocalizationTool
@@ -23,13 +25,13 @@ namespace LocalizationTool
             InitializeComponent();
         }
 
-        private void ShowLangtoJson_Click(object sender, RoutedEventArgs e)
+        private void ShowLangtoJson(object sender, MouseButtonEventArgs e)
         {
             var l2J = new LangtoJson();
             l2J.Show();
         }
 
-        private void ShowUpgrade_Click(object sender, RoutedEventArgs e)
+        private void ShowUpgrade(object sender, MouseButtonEventArgs e)
         {
             var upgrade = new Upgrade();
             upgrade.Show();

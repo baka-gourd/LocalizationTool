@@ -7,8 +7,24 @@
         Title="汉化小帮手" Height="480" Width="800" FontFamily="Microsoft YaHei UI" FontSize="14">
 
     <Grid Margin="0,0,0,0">
-        <Button x:Name="ShowLangtoJson" Content="打开lang/json转换" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="144" Click="ShowLangtoJson_Click" Height="49"/>
-        <Button x:Name="ShowUpgrade" Content="打开低版本语言文件转高版本" HorizontalAlignment="Left" Margin="175,14,0,0" VerticalAlignment="Top" Width="236" Click="ShowUpgrade_Click" Height="45"/>
+        <Border BorderBrush="#FFA8A8A8" BorderThickness="4" HorizontalAlignment="Left" Margin="10,17,0,0" Width="762" Height="173" VerticalAlignment="Top"/>
+        <Label Content="语言文件处理" HorizontalAlignment="Left" Margin="22,2,0,0" VerticalAlignment="Top" Width="97" Background="White"/>
+        <TextBlock HorizontalAlignment="Left" Margin="22,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" PreviewMouseLeftButtonDown ="ShowLangtoJson"><InlineUIContainer>
+                <Label HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16">
+                    <Label Height="130" Width="130">
+                        <Label Content="&#xF0EC;" FontFamily="pack://application:,,,/Assets/#FontAwesome" FontSize="100" Height="120" Width="120"/>
+                    </Label>
+                </Label>
+            </InlineUIContainer></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="190,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" PreviewMouseLeftButtonDown ="ShowUpgrade"><InlineUIContainer>
+                <Label HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16">
+                    <Label Height="152" Width="115">
+                        <Label Content="&#xF102;" FontFamily="pack://application:,,,/Assets/#FontAwesome" FontSize="145" Height="155" Width="143"/>
+                    </Label>
+                </Label>
+            </InlineUIContainer></TextBlock>
+        <Label Content="lang/json转换" HorizontalAlignment="Left" Margin="37,149,0,0" VerticalAlignment="Top"/>
+        <Label Content="语言文件升级" HorizontalAlignment="Left" Margin="204,149,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
