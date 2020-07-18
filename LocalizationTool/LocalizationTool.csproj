@@ -132,12 +132,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ExtractJar.xaml.cs">
+      <DependentUpon>ExtractJar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LangtoJson.xaml.cs">
       <DependentUpon>LangtoJson.xaml</DependentUpon>
     </Compile>
     <Compile Include="Upgrade.xaml.cs">
       <DependentUpon>Upgrade.xaml</DependentUpon>
     </Compile>
+    <Page Include="ExtractJar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

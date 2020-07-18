@@ -4,11 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="汉化小帮手" Height="480" Width="800" FontFamily="Microsoft YaHei UI" FontSize="14">
-
+        Title="汉化小帮手" Height="250" Width="527.082" FontFamily="Microsoft YaHei UI" FontSize="14">
     <Grid Margin="0,0,0,0">
-        <Border BorderBrush="#FFA8A8A8" BorderThickness="4" HorizontalAlignment="Left" Margin="10,17,0,0" Width="762" Height="173" VerticalAlignment="Top"/>
+        <Border BorderBrush="#FFA8A8A8" BorderThickness="4" HorizontalAlignment="Left" Margin="10,17,0,0" Width="484" Height="173" VerticalAlignment="Top"/>
+        <Border BorderBrush="#FFA8A8A8" BorderThickness="4" HorizontalAlignment="Left" Margin="10,225,0,0" Width="762" Height="173" VerticalAlignment="Top"/>
         <Label Content="语言文件处理" HorizontalAlignment="Left" Margin="22,2,0,0" VerticalAlignment="Top" Width="97" Background="White"/>
+        <Label Content="lang/json转换" HorizontalAlignment="Left" Margin="37,149,0,0" VerticalAlignment="Top"/>
+        <Label Content="语言文件升级" HorizontalAlignment="Left" Margin="204,149,0,0" VerticalAlignment="Top"/>
+        <Label Content="批量提取语言文件" HorizontalAlignment="Left" Margin="344,149,0,0" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="22,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" PreviewMouseLeftButtonDown ="ShowLangtoJson"><InlineUIContainer>
                 <Label HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16">
                     <Label Height="130" Width="130">
@@ -23,8 +26,13 @@
                     </Label>
                 </Label>
             </InlineUIContainer></TextBlock>
-        <Label Content="lang/json转换" HorizontalAlignment="Left" Margin="37,149,0,0" VerticalAlignment="Top"/>
-        <Label Content="语言文件升级" HorizontalAlignment="Left" Margin="204,149,0,0" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="353,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" PreviewMouseLeftButtonDown ="ExtractJar" Width="123"><InlineUIContainer>
+                <Label HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="16" Height="132">
+                    <Label Height="130" Width="130">
+                        <Label Content="&#xF1C6;" FontFamily="pack://application:,,,/Assets/#FontAwesome" FontSize="90" Height="120" Width="120"/>
+                    </Label>
+                </Label>
+            </InlineUIContainer></TextBlock>
 
     </Grid>
 </Window>

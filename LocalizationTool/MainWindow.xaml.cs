@@ -17,6 +17,7 @@ namespace LocalizationTool
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
+    /// 800宽
     /// </summary>
     public partial class MainWindow
     {
@@ -35,6 +36,12 @@ namespace LocalizationTool
         {
             var upgrade = new Upgrade();
             upgrade.Show();
+        }
+
+        private void ExtractJar(object sender, MouseButtonEventArgs e)
+        {
+            var ej = new ExtractJar();
+            ej.Show();
         }
     }
 }
