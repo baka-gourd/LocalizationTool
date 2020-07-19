@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="lang/json转换" Height="178.519" Width="316" FontFamily="Microsoft YaHei UI" FontSize="14">
     <Grid Margin="0,0,2,0">
-        <Button x:Name="Select" Content="选择" HorizontalAlignment="Left" Height="24" Margin="12,102,0,0" VerticalAlignment="Top" Width="57" Click="Select_Click" Background="White" BorderBrush="#FFA8A8A8" BorderThickness="2"/>
-        <Label x:Name="Paths" Content="" HorizontalAlignment="Left" Margin="74,99,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Button x:Name="Select" Content="选择" HorizontalAlignment="Left" Height="24" Margin="12,102,0,0" VerticalAlignment="Top" Width="101" Click="Select_Click" Background="White" BorderBrush="#FFA8A8A8" BorderThickness="2"/>
+        <Label x:Name="Paths" Content="" HorizontalAlignment="Left" Margin="110,99,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <RadioButton x:Name="File" GroupName="ff" Content="处理一个" HorizontalAlignment="Left" Margin="23,34,0,0" VerticalAlignment="Top"/>
         <RadioButton x:Name="Folder" GroupName="ff" Content="处理一堆" HorizontalAlignment="Left" Margin="23,56,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="Doto" Content="开始处理" HorizontalAlignment="Left" Margin="159,104,0,0" VerticalAlignment="Top" Height="23" Click="Doto_Click" Width="80"/>
+        <Button x:Name="Doto" Content="开始处理" HorizontalAlignment="Left" Margin="159,102,0,0" VerticalAlignment="Top" Height="25" Click="Doto_Click" Width="129" BorderBrush="#FFA8A8A8" Background="White" BorderThickness="2"/>
         <RadioButton x:Name="ToLang" GroupName="lj" Content="json转lang" HorizontalAlignment="Left" Margin="173,57,0,0" VerticalAlignment="Top"/>
         <RadioButton x:Name="ToJson" GroupName="lj" Content="lang转json" HorizontalAlignment="Left" Margin="173,35,0,0" VerticalAlignment="Top"/>
         <Border BorderBrush="#FFA8A8A8" BorderThickness="2" HorizontalAlignment="Left" Height="72" Margin="12,16,0,0" VerticalAlignment="Top" Width="129"/>
