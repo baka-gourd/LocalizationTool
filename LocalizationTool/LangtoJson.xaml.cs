@@ -1,21 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
@@ -24,14 +10,13 @@ namespace LocalizationTool
     /// <summary>
     /// Window1.xaml 的交互逻辑
     /// </summary>
-    public partial class LangtoJson : Window
+    public partial class LangtoJson
     {
         public string RawPathTo { get; set; }
         public LangtoJson()
         {
             InitializeComponent();
             FileList.Visibility = Visibility.Collapsed;
-            Cancel.Visibility = Visibility.Collapsed;
             ListName.Visibility = Visibility.Collapsed;
             BorderList.Visibility = Visibility.Collapsed;
         }
@@ -46,18 +31,14 @@ namespace LocalizationTool
                     Filter = "Minecraft语言文件(*.lang,*.json)|*.lang;*.json"
                 };
                 openFile.ShowDialog();
-                try
+                if (openFile.FileName != "")
                 {
                     Paths.Content = "√";
                     RawPathTo = openFile.FileName;
-                    FileList.Visibility = Visibility.Collapsed;
-                    Select.Visibility = Visibility.Collapsed;
-                    Cancel.Visibility = Visibility.Visible;
                 }
-                catch
-                {
-                    MessageBox.Show("请选择！");
-                }
+                else
+                    Paths.Content = "请选择";
+                FileList.Visibility = Visibility.Collapsed;
             }
             else if (Folder.IsChecked == true)
             {
@@ -67,8 +48,8 @@ namespace LocalizationTool
                     Description = @"请选择需要批量处理的文件夹："
                 };
                 openFolder.ShowDialog();
-                try
-                {
+                if (openFolder.SelectedPath != "")
+                { 
                     Paths.Content = "√";
                     RawPathTo = openFolder.SelectedPath;
                     L2J.Height = 459;
@@ -84,27 +65,13 @@ namespace LocalizationTool
                     {
                         FileList.Items.Add(file.Name);
                     }
-                    Select.Visibility = Visibility.Collapsed;
-                    Cancel.Visibility = Visibility.Visible;
                 }
-                catch
-                {
-                    MessageBox.Show("请选择！");
-                }
+                else
+                    Paths.Content = "请选择";
             }
             else
-            {
-                Paths.Content = "请选择！";
-            }
+                Paths.Content = "请选择";
         }//选择
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            Select.Visibility = Visibility.Visible;
-            Paths.Content = "";
-            RawPathTo = "";
-            Cancel.Visibility = Visibility.Collapsed;
-            FileList.Visibility = Visibility.Collapsed;
-        }//取消
 
         private void Doto_Click(object sender, RoutedEventArgs e)
         {
