@@ -138,6 +138,7 @@
     <Compile Include="LangtoJson.xaml.cs">
       <DependentUpon>LangtoJson.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Process.cs" />
     <Compile Include="Upgrade.xaml.cs">
       <DependentUpon>Upgrade.xaml</DependentUpon>
     </Compile>

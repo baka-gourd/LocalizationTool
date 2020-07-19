@@ -114,54 +114,17 @@ namespace LocalizationTool
                 {
                     if (RawPathTo.Contains(".lang"))
                     {
-                        var keyReg = new Regex(".+(?==)");
-                        var nameReg = new Regex("(?<==).+");
-                        var fuckReg1 = new Regex("\n*\r");
-                        var fuckReg2 = new Regex("//(.*)");
-                        var fuckReg3 = new Regex("#(.*)");
-                        var fuckReg4 = new Regex("^( \\*)");
-                        var fuckReg5 = new Regex("^(/\\*)");
-                        var jobj = new JObject();
-                        foreach (string str in System.IO.File.ReadAllLines(RawPathTo, Encoding.UTF8))
-                        {
-                            if (fuckReg1.IsMatch(str))
-                                continue;
-                            if (fuckReg2.IsMatch(str))
-                                continue;
-                            if (fuckReg3.IsMatch(str))
-                                continue;
-                            if (fuckReg4.IsMatch(str))
-                                continue;
-                            if (fuckReg5.IsMatch(str))
-                                continue;
-                            var key = keyReg.Match(str).ToString();
-                            var name = nameReg.Match(str).ToString();
-                            if (key == "" && name == "")
-                                continue;
-                            if (!jobj.TryGetValue(key, out _))
-                            {
-                                jobj.Add(key, name);
-                            }
-                        }
+                        var langJObject = Process.ParseLangFile(RawPathTo);
                         var newPath = RawPathTo.Replace(".lang", ".json");
-                        System.IO.File.WriteAllText(newPath, jobj.ToString());
-                        MessageBox.Show("完成！输出到{0}",newPath);
+                        System.IO.File.WriteAllText(newPath, langJObject.ToString());
+                        MessageBox.Show("完成！输出到"+ newPath);
                     }
-
-
                 }//单个转json,完成
                 if (ToLang.IsChecked == true)
                 {
                     if (RawPathTo.Contains(".json"))
                     {
-                        var jFile = System.IO.File.OpenText(RawPathTo);
-                        var reader = new JsonTextReader(jFile);
-                        var jObj = (JObject)JToken.ReadFrom(reader);
-                        List<string> langList = new List<string>();
-                        foreach (var jValue in jObj)
-                        {
-                            langList.Add(jValue.Key + "=" + jValue.Value);
-                        }
+                        var langList = Process.ParseJsonFile(RawPathTo);
                         var newPath = (RawPathTo.Replace(".json", ".lang"));
                         var sw = new StreamWriter(newPath, true, Encoding.UTF8);
                         foreach (var langStr in langList)
@@ -169,7 +132,7 @@ namespace LocalizationTool
                             sw.WriteLine(langStr);
                         }
                         sw.Close();
-                        MessageBox.Show("完成！输出到{0}", newPath);
+                        MessageBox.Show("完成！输出到"+ newPath);
                     }
                 }//单个转lang,完成
             }
@@ -180,29 +143,9 @@ namespace LocalizationTool
                     var root = new DirectoryInfo(RawPathTo);
                     foreach (var f in root.GetFiles("*.lang"))
                     {
-                        var keyReg = new Regex(".+(?==)");
-                        var nameReg = new Regex("(?<==).+");
-                        var fuckReg1 = new Regex("\n*\r");
-                        var fuckReg2 = new Regex("//(.*)");
-                        var fuckReg3 = new Regex("#(.*)");
-                        var jobj = new JObject();
-                        foreach (string str in System.IO.File.ReadAllLines(RawPathTo + "/" + f, Encoding.UTF8))
-                        {
-                            if (fuckReg1.IsMatch(str))
-                                break;
-                            if (fuckReg2.IsMatch(str))
-                                break;
-                            if (fuckReg3.IsMatch(str))
-                                break;
-                            var key = keyReg.Match(str).ToString();
-                            var name = nameReg.Match(str).ToString();
-                            if (!jobj.Children().Contains(key))
-                            {
-                                jobj.Add(key, name);
-                            }
-                        }
+                        var langJObject = Process.ParseLangFile(RawPathTo + "/" + f);
                         var newPath = (RawPathTo + "/" + f).Replace(".lang", ".json");
-                        System.IO.File.WriteAllText(newPath, jobj.ToString());
+                        System.IO.File.WriteAllText(newPath, langJObject.ToString());
                     }
                     MessageBox.Show("完成！");
                 }//批量转json,完成
@@ -211,14 +154,7 @@ namespace LocalizationTool
                     var root = new DirectoryInfo(RawPathTo);
                     foreach (var f in root.GetFiles("*.json"))
                     {
-                        var jFile = System.IO.File.OpenText(RawPathTo + "/" + f);
-                        var reader = new JsonTextReader(jFile);
-                        var jObj = (JObject)JToken.ReadFrom(reader);
-                        List<string> langList = new List<string>();
-                        foreach (var jValue in jObj)
-                        {
-                            langList.Add(jValue.Key + "=" + jValue.Value);
-                        }
+                        var langList = Process.ParseJsonFile(RawPathTo + "/" + f);
                         var newPath = (RawPathTo + "/" + f).Replace(".json", ".lang");
                         var sw = new StreamWriter(newPath, true, Encoding.UTF8);
                         foreach (var langStr in langList)
