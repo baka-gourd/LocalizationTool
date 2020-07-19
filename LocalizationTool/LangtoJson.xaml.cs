@@ -110,30 +110,25 @@ namespace LocalizationTool
         {
             if (System.IO.File.Exists(RawPathTo))
             {
-                if (ToJson.IsChecked == true)
+
+                if (RawPathTo.Contains(".lang"))
                 {
-                    if (RawPathTo.Contains(".lang"))
-                    {
-                        var langJObject = Process.ParseLangFile(RawPathTo);
-                        var newPath = RawPathTo.Replace(".lang", ".json");
-                        System.IO.File.WriteAllText(newPath, langJObject.ToString());
-                        MessageBox.Show("完成！输出到"+ newPath);
-                    }
-                }//单个转json,完成
+                    var langJObject = Process.ParseLangFile(RawPathTo);
+                    var newPath = RawPathTo.Replace(".lang", ".json");
+                    System.IO.File.WriteAllText(newPath, langJObject.ToString());
+                    MessageBox.Show("完成！输出到"+ newPath);
+                } //单个转json,完成
                 if (ToLang.IsChecked == true)
                 {
-                    if (RawPathTo.Contains(".json"))
+                    var langList = Process.ParseJsonFile(RawPathTo);
+                    var newPath = (RawPathTo.Replace(".json", ".lang"));
+                    var sw = new StreamWriter(newPath, true, Encoding.UTF8);
+                    foreach (var langStr in langList)
                     {
-                        var langList = Process.ParseJsonFile(RawPathTo);
-                        var newPath = (RawPathTo.Replace(".json", ".lang"));
-                        var sw = new StreamWriter(newPath, true, Encoding.UTF8);
-                        foreach (var langStr in langList)
-                        {
-                            sw.WriteLine(langStr);
-                        }
-                        sw.Close();
-                        MessageBox.Show("完成！输出到"+ newPath);
+                        sw.WriteLine(langStr);
                     }
+                    sw.Close();
+                    MessageBox.Show("完成！输出到"+ newPath);
                 }//单个转lang,完成
             }
             else
